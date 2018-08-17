@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  tools {
-    maven 'maven'
- }
   stages {
     stage('Checkout') {
       steps {
@@ -10,10 +7,21 @@ pipeline {
       }
     }
     stage('build') {
-      steps {
-        sh 'mvn clean package'
+      parallel {
+        stage('build') {
+          steps {
+            sh 'mvn clean package'
+          }
+        }
+        stage('Sonarqube-Analisis') {
+          steps {
+            waitForQualityGate()
+          }
+        }
       }
     }
   }
-
+  tools {
+    maven 'maven'
+  }
 }
