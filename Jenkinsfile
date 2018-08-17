@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  tools {
+    maven 'maven'
+ }
   stages {
     stage('Checkout') {
       steps {
@@ -12,7 +15,5 @@ pipeline {
       }
     }
   }
-  environment {
-    maven = 'maven'
-  }
+
 }
